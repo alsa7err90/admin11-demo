@@ -1,0 +1,24 @@
+<x-admin-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __('setting Management') }}
+        </h2>
+    </x-slot>
+    <div class="sm:px-6 lg:px-8 py-12" >
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+
+            <h1 class="text-2xl font-bold mb-6">{{ __('View {{ routeName }}') }}</h1>
+
+            <div class="mb-4">
+                <div class="bg-gray-100 p-4 rounded-md shadow">
+                    {{ showFields }}
+                </div>
+            </div>
+
+            <a href="{{ route('admin.{{ routeName }}.edit', ${{ routeName }}->id) }}"
+                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                {{ __('Edit') }}
+            </a>
+        </div>
+    </div>
+</x-admin-layout>

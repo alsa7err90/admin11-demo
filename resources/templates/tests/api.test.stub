@@ -1,0 +1,83 @@
+<?php
+
+namespace Tests\Unit;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\{{ modelName }};
+use App\Http\Controllers\Api\{{ controllerName }}ApiController;
+
+class {{ controllerName }}ApiTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected string $tableName;
+    protected string $apiVersion; // إضافة متغير للإصدار
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->tableName = (new {{ modelName }})->getTable();
+        $this->apiVersion = 'v1'; // يمكنك تغيير هذا إلى الإصدار المطلوب
+    }
+
+    /** @test */
+    public function it_can_list_all_{{ modelName|snake }}()
+    {
+        {{ modelName }}::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/' . $this->apiVersion . '/{{ routeName }}');
+
+        $response->assertStatus(200);
+        $response->assertJsonCount(3);
+    }
+
+    /** @test */
+    public function it_can_show_a_{{ modelName|snake }}()
+    {
+        $item = {{ modelName }}::factory()->create();
+
+        $response = $this->getJson('/api/' . $this->apiVersion . '/{{ routeName }}/' . $item->id);
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['id' => $item->id]);
+    }
+
+    /** @test */
+    public function it_can_create_a_{{ modelName|snake }}()
+    {
+        $data = [
+            {{ fields }}
+        ];
+
+        $response = $this->postJson('/api/' . $this->apiVersion . '/{{ routeName }}', $data);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas($this->tableName, $data);
+    }
+
+    /** @test */
+    public function it_can_update_a_{{ modelName|snake }}()
+    {
+        $item = {{ modelName }}::factory()->create();
+        $data = [
+            {{ fields }}
+        ];
+
+        $response = $this->putJson('/api/' . $this->apiVersion . '/{{ routeName }}/' . $item->id, $data);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas($this->tableName, $data);
+    }
+
+    /** @test */
+    public function it_can_delete_a_{{ modelName|snake }}()
+    {
+        $item = {{ modelName }}::factory()->create();
+
+        $response = $this->deleteJson('/api/' . $this->apiVersion . '/{{ routeName }}/' . $item->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing($this->tableName, ['id' => $item->id]);
+    }
+}

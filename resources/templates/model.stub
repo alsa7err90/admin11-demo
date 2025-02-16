@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+{{ useSoftDeletesTrait }}
+use Illuminate\Database\Eloquent\Model;
+
+class {{ modelName }} extends Model
+{
+    use HasFactory;
+{{ softDeletesTrait }}
+    protected $fillable = [{{ fillableFields }}];
+
+    // Accessors
+    {{ accessors }}
+
+    // Mutators
+    {{ mutators }}
+
+}

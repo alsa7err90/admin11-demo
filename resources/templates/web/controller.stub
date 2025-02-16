@@ -1,0 +1,59 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Controllers\Controller;
+use App\Services\{{ modelName }}Service;
+use App\Http\Requests\{{ modelName }}\StoreRequest;
+use App\Http\Requests\{{ modelName }}\UpdateRequest;
+
+class {{ controllerName }} extends Controller
+{
+    protected ${{ camelModelName }}Service;
+
+    public function __construct({{ modelName }}Service ${{ camelModelName }}Service)
+    {
+        $this->{{ camelModelName }}Service = ${{ camelModelName }}Service;
+    }
+
+    public function index()
+    {
+        $data = $this->{{ camelModelName }}Service->getAll();
+        return view('{{ viewPath }}.index', compact('data'));
+    }
+
+    public function create()
+    {
+        return view('{{ viewPath }}.create');
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $this->{{ camelModelName }}Service->create($request->validated());
+        return redirect()->route('{{ routeName }}.index');
+    }
+
+    public function show($id)
+    {
+        ${{ camelModelName }} = $this->{{ camelModelName }}Service->findById($id);
+        return view('{{ viewPath }}.show', compact('{{ camelModelName }}'));
+    }
+
+    public function edit($id)
+    {
+        ${{ camelModelName }} = $this->{{ camelModelName }}Service->findById($id);
+        return view('{{ viewPath }}.edit', compact('{{ camelModelName }}'));
+    }
+
+    public function update(UpdateRequest $request, $id)
+    {
+        $this->{{ camelModelName }}Service->update($id, $request->validated());
+        return redirect()->route('{{ routeName }}.index');
+    }
+
+    public function destroy($id)
+    {
+        $this->{{ camelModelName }}Service->delete($id);
+        return redirect()->route('{{ routeName }}.index');
+    }
+}

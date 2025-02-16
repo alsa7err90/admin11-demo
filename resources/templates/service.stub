@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\{{ modelName }};
+use App\Repositories\{{ modelName }}Repository;
+
+class {{ modelName }}Service
+{
+
+    protected $postRepository;
+
+    public function __construct({{ modelName }}Repository $postRepository)
+    {
+        $this->{{ modelNameLower }}Repository = $postRepository;
+    }
+
+    public function getAll()
+    {
+        return $this->{{ modelNameLower }}Repository->getAll();
+    }
+
+    public function create(array $data)
+    {
+        return $this->{{ modelNameLower }}Repository->create($data);
+    }
+
+    public function findById($id)
+    {
+        return $this->{{ modelNameLower }}Repository->findById($id);
+    }
+
+    public function update(Post $post, array $data)
+    {
+        return $this->{{ modelNameLower }}Repository->update($post, $data);
+    }
+
+    public function delete(Post $post)
+    {
+        return $this->{{ modelNameLower }}Repository->delete($post);
+    }
+
+}

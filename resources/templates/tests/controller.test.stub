@@ -1,0 +1,81 @@
+<?php
+
+namespace Tests\Unit;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\{{ modelName }};
+use App\Http\Controllers\{{ controllerName }};
+
+class {{ controllerName }}Test extends TestCase
+{
+    use RefreshDatabase;
+
+    protected string $tableName; // إضافة متغير لحفظ اسم الجدول
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->tableName = (new {{ modelName }})->getTable(); // تحديد اسم الجدول ديناميكيًا
+    }
+
+    /** @test */
+    public function it_can_list_all_{{ modelName|snake }}()
+    {
+        {{ modelName }}::factory()->count(3)->create();
+
+        $response = $this->get('/{{ routeName }}');
+
+        $response->assertStatus(200);
+     }
+
+
+ /** @test */
+    public function it_can_show_a_{{ modelName|snake }}()
+    {
+        $item = {{ modelName }}::factory()->create();
+
+        $response = $this->get('/{{ routeName }}/' . $item->id);
+
+        $response->assertStatus(200);
+        $response->assertViewHas('{{ modelName|snake }}');
+    }
+
+    /** @test */
+    public function it_can_create_a_{{ modelName|snake }}()
+    {
+        $data = [
+            {{ fields }}
+        ];
+
+        $response = $this->post('/{{ routeName }}', $data);
+
+        $response->assertStatus(302); // أو 201 حسب طريقة إعادة التوجيه
+        $this->assertDatabaseHas($this->tableName, $data); // استخدام اسم الجدول من المتغير
+    }
+
+    /** @test */
+    public function it_can_update_a_{{ modelName|snake }}()
+    {
+        $item = {{ modelName }}::factory()->create();
+        $data = [
+            {{ fields }}
+        ];
+
+        $response = $this->put('/{{ routeName }}/' . $item->id, $data);
+
+        $response->assertStatus(302); // أو 200 حسب طريقة إعادة التوجيه
+        $this->assertDatabaseHas($this->tableName, $data); // استخدام اسم الجدول من المتغير
+    }
+
+    /** @test */
+    public function it_can_delete_a_{{ modelName|snake }}()
+    {
+        $item = {{ modelName }}::factory()->create();
+
+        $response = $this->delete('/{{ routeName }}/' . $item->id);
+
+        $response->assertStatus(302); // أو 204 حسب طريقة إعادة التوجيه
+        $this->assertDatabaseMissing($this->tableName, ['id' => $item->id]); // استخدام اسم الجدول من المتغير
+    }
+}

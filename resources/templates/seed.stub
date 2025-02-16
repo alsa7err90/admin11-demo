@@ -1,0 +1,22 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class {{className}} extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run()
+    {
+        try {
+            DB::table('{{tableName}}')->insert({{data}});
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+    }
+}
