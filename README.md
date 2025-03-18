@@ -2,7 +2,7 @@
 ## install
 <p>1- open cmd or git Bash</p>
 <p>2- git clone https://github.com/alsa7err90/admin11-demo.git</p>
-<p>3-  cd admin-dashboard</p>
+<p>3-  cd admin11-demo</p>
 <p>4- composer install</p>
 <p>5- cp .env.example .env</p>
 <p>6-php artisan key:generate</p>
